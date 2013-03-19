@@ -128,8 +128,9 @@ define([
         }
         setState((typeof(error) === 'string') ? 'typing' : 'error', error);
       }).
-      get('properties').get('auth-endpoint').
-      then(requestToken).
+      then(function(storageInfo) {
+        return requestToken(storageInfo.properties['auth-endpoint']);
+      }).
       then(schedule.enable, util.curry(setState, 'error'));
   }
 
